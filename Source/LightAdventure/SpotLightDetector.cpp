@@ -12,6 +12,7 @@ USpotLightDetector::USpotLightDetector()
 
 void USpotLightDetector::BeginPlay()
 {
+	Super::BeginPlay();
 	Player = Cast<ALightCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
