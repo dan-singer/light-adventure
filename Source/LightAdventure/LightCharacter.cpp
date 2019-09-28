@@ -3,6 +3,7 @@
 
 #include "LightCharacter.h"
 #include "Engine/World.h"
+#include "LightAdventureGameModeBase.h"
 // Sets default values
 ALightCharacter::ALightCharacter()
 {
@@ -15,7 +16,10 @@ ALightCharacter::ALightCharacter()
 void ALightCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	ALightAdventureGameModeBase* GameMode = Cast<ALightAdventureGameModeBase>(GetWorld()->GetAuthGameMode());
+	GameMode->EnteredLight.AddDynamic(this, &ALightCharacter::OnLightEnter);
+	GameMode->ExitedLight.AddDynamic(this, &ALightCharacter::OnLightExit);
+
 }
 
 void ALightCharacter::LookHorizontal(float amt)
@@ -36,6 +40,15 @@ void ALightCharacter::MoveForward(float amt)
 void ALightCharacter::MoveRight(float amt)
 {
 	AddMovementInput(GetActorRightVector(), amt);
+}
+
+void ALightCharacter::OnLightEnter()
+{
+}
+
+void ALightCharacter::OnLightExit()
+{
+
 }
 
 // Called every frame

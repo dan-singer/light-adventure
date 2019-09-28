@@ -37,6 +37,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void MoveRight(float amt);
 
+	UFUNCTION()
+	void OnLightEnter();
+
+	UFUNCTION()
+	void OnLightExit();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
