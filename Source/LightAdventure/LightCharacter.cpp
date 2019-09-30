@@ -4,6 +4,7 @@
 #include "LightCharacter.h"
 #include "Engine/World.h"
 #include "LightAdventureGameModeBase.h"
+#include <Engine/Engine.h>
 // Sets default values
 ALightCharacter::ALightCharacter()
 {
@@ -44,11 +45,14 @@ void ALightCharacter::MoveRight(float amt)
 
 void ALightCharacter::OnLightEnter()
 {
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Entered light"));
 }
 
 void ALightCharacter::OnLightExit()
 {
-
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Exited light"));
 }
 
 // Called every frame
