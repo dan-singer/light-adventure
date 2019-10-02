@@ -25,6 +25,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float LookSensitivityY = 100.0f;
 
+	UPROPERTY(BlueprintReadOnly)
+	int LightsUnder = 0;
+
 	UFUNCTION(BlueprintCallable)
 	void LookHorizontal(float amt);
 

@@ -47,19 +47,20 @@ void ALightCharacter::OnLightEnter()
 {
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Entered light"));
+	++LightsUnder;
 }
 
 void ALightCharacter::OnLightExit()
 {
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Exited light"));
+	--LightsUnder;
 }
 
 // Called every frame
 void ALightCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
