@@ -5,6 +5,7 @@
 #include "Engine/World.h"
 #include "LightAdventureGameModeBase.h"
 #include <Engine/Engine.h>
+#include <GameFramework/CharacterMovementComponent.h>
 // Sets default values
 ALightCharacter::ALightCharacter()
 {
@@ -20,7 +21,7 @@ void ALightCharacter::BeginPlay()
 	ALightAdventureGameModeBase* GameMode = Cast<ALightAdventureGameModeBase>(GetWorld()->GetAuthGameMode());
 	GameMode->EnteredLight.AddDynamic(this, &ALightCharacter::OnLightEnter);
 	GameMode->ExitedLight.AddDynamic(this, &ALightCharacter::OnLightExit);
-
+	InitialWalkSpeed = Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed;
 }
 
 void ALightCharacter::LookHorizontal(float amt)
@@ -43,6 +44,17 @@ void ALightCharacter::MoveRight(float amt)
 	AddMovementInput(GetActorRightVector(), amt);
 }
 
+void ALightCharacter::SprintStart()
+{
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = SprintSpeed;
+
+}
+
+void ALightCharacter::SprintEnd()
+{
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = InitialWalkSpeed;
+}
+
 void ALightCharacter::OnLightEnter()
 {
 	if (GEngine)
@@ -61,6 +73,15 @@ void ALightCharacter::OnLightExit()
 void ALightCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (LightsUnder > 0 && Strength < 1) {
+		Strength += DeltaTime * RecoverRate;
+	}
+	else if (LightsUnder == 0 && Strength > 0) {
+		Strength -= DeltaTime * DamageRate;
+		if (Strength <= 0) {
+			Died.Broadcast();
+		}
+	}
 }
 
 // Called to bind functionality to input
