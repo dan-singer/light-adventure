@@ -57,15 +57,11 @@ void ALightCharacter::SprintEnd()
 
 void ALightCharacter::OnLightEnter()
 {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Entered light"));
 	++LightsUnder;
 }
 
 void ALightCharacter::OnLightExit()
 {
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Exited light"));
 	--LightsUnder;
 }
 
@@ -73,13 +69,14 @@ void ALightCharacter::OnLightExit()
 void ALightCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (LightsUnder > 0 && Strength < 1) {
+	if (LightsUnder > 0 && Strength < 1 && !IsDead) {
 		Strength += DeltaTime * RecoverRate;
 	}
 	else if (LightsUnder == 0 && Strength > 0) {
 		Strength -= DeltaTime * DamageRate;
 		if (Strength <= 0) {
 			Died.Broadcast();
+			IsDead = true;
 		}
 	}
 }

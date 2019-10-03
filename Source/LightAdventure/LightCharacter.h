@@ -19,6 +19,7 @@ public:
 
 private:
 	float InitialWalkSpeed;
+	bool IsDead = false;
 
 protected:
 	// Called when the game starts or when spawned
